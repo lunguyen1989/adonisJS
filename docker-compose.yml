@@ -4,15 +4,13 @@ services:
   adonis-mysql:
     image: mysql:5.7
     ports:
-      - '3306:3306'
+      - "3306:3306"
     volumes:
-      - data:/var/lib/mysql
+      - adonis_data_volume:/var/lib/mysql
     environment:
-      MYSQL_USER: root
       MYSQL_DATABASE: adonis
       MYSQL_PASSWORD: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    command: tail -f /dev/null
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - api-network
   adonis-api:
@@ -32,6 +30,6 @@ services:
     networks:
       - api-network
 volumes:
-  data:
+  adonis_data_volume:
 networks: 
   api-network:
