@@ -3,32 +3,58 @@
 const Job = use('App/Models/Job');
 
 class JobController {
-    async home({view}) {
-        // Fetch a job
-        const jobs = await Job.all();
+    async getJobs({request, response, auth}) {
+        
+        if(await auth.check()) {
+            let jobs = await Job.query().with('user').fetch()
+            return response.json(jobs)
 
-        return view.render('index', { jobs: jobs.toJSON() })
+        } else {
+            return response.json({message: 'You are not registered!'})
+        }
     }
 
-    async userIndex({view, auth}) {
+    async createJob({request, response, auth}) {
 
-        // Fetch all user's jobs
-        const jobs = await auth.user.jobs().fetch();
-
-        return view.render('index', { jobs: jobs.toJSON() })
+        try {
+             if (await auth.check()) {
+                let job = await auth.user.jobs().create(request.all());
+                await job.load('user');
+                return response.json(job)
+            }      
+          } catch (e) {
+            return response.json({message: 'You are not authorized to perform this action'})
+          }
     }
 
-    async create({ request, response, session, auth}) {
-        const job = request.all();
+    async updateJob({request, response, auth}) {
+        try {
+            if (await auth.check()) {
+               let job = await Job.find(request.params.id)
 
-        const posted = await auth.user.jobs().create({
-            title: job.title,
-            link: job.link,
-            description: job.description
-        });
+               job.title = request.input('title');
+               job.link = request.input('link');
+               job.description = request.input('description');
 
-        session.flash({message:"Your job has been posted!"});
-        return response.redirect('back');
+               await job.save()
+               await job.load('user');
+               return response.json(job)
+           }      
+         } catch (e) {
+           return response.json({message: 'You are not authorized to perform this action'})
+         }
+    }
+
+    async deleteJob({request, response, auth}) {
+        try {
+            if (await auth.check()) {
+            let job = await Job.find(request.params.id)
+            await job.delete();
+            return response.json(job)
+           }      
+         } catch (e) {
+           return response.json({message: 'You are not authorized to perform this action'})
+         }
     }
 }
 

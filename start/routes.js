@@ -14,20 +14,12 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use('Route');
+Route.on('/').render('welcome');
+Route.post('/api/user/register', 'UserController.register');
+Route.post('/api/user/login', 'UserController.login');
 
-//Route.on('/').render('index')
-Route.get('/', 'JobController.home');
-Route.on('/signup').render('auth.signup');
-Route.post('/signup', 'UserController.create').validator('CreateUser');
-Route.on('/login').render('auth.login');
-Route.post('/login', 'UserController.login').validator('LoginUser');
-Route.get('/logout', async ({ auth, response }) => {
-    await auth.logout();
-    return response.redirect('/');
-});
-Route.get('/get-a-job', 'JobController.userIndex');
-Route.post('/post-a-job', 'JobController.create');
-Route.get('/post-a-job/delete/:id', 'JobController.delete');
-Route.get('/post-a-job/edit/:id', 'JobController.edit');
-Route.post('/post-a-job/update/:id', 'JobController.update').validator('CreateJob');
+Route.get('/api/job', 'JobController.getJobs').middleware('auth');
+Route.post('/api/job', 'JobController.createJob').middleware('auth');
+Route.put('/api/job/:id', 'JobController.updateJob').middleware('auth');
+Route.delete('/api/job/:id', 'JobController.deleteJob').middleware('auth');

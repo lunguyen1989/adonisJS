@@ -3,22 +3,27 @@
 const User = use('App/Models/User');
 
 class UserController {
-    async create({request, response, auth}) {
-        const user = await User.create(request.only(['username','email','password']));
-        await auth.login(user);
-        return response.redirect('/');
-    }
-    async login({ request, auth, response, session }) {
-        const { email, password } = request.all();
+   async register({request, response, auth}) {
+       let user = await User.create(request.all());
+        //generate token for user
+       let accessToken = await auth.generate(user);
 
-        try {
-            await auth.attempt(email, password);
-            return response.redirect('/');
-        } catch (error) {
-            session.flash({loginError: 'These credentials do not work.'})
-            return response.redirect('/login');
-        }
-    }
+        return response.json({"user": user, "access_token": accessToken})
+   }
+
+   async login({request, response, auth}) {
+       let {email, password}  = request.all();
+       try {
+           if(await auth.attempt(email,password)) {
+               let user = await User.findBy('email', email);
+               let accessToken = await auth.generate(user);
+       
+                return response.json({"user": user, "access_token": accessToken})
+           }
+       } catch(e) {
+        return response.json({message: 'You are not registered!'})
+       }
+   }
 }
 
 module.exports = UserController
