@@ -4,6 +4,7 @@ Demo with register new user and login
 ---------------------------------------------------------------------------------------------------------------------------------------------
 API : Register - Method : POST
 url : http://localhost:3333/api/user/register
+```
 data : 
 {
     "email" : "lunguyen123@gmail.com",
@@ -26,11 +27,12 @@ Result :
         "refreshToken": null
     }
 }
-
+```
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 Api : login  - Method : POST
 url : http://localhost:3333/api/user/login
+```
 data : 
 {
     "email" : "lunguyen123@gmail.com",
@@ -53,21 +55,22 @@ Result :
         "refreshToken": null
     }
 }
-
+```
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 Api : get all jobs - Method : GET
 url : http://localhost:3333/api/job
+```
 header :
 Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYzMzQyNjc4MH0.mpZTzxHdeWXz8yEICz5eN83SwGe3xqNCFIt9EvvV6WU
-
+```
 Result : job list
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 api : Create a job - Method POST
 url : http://localhost:3333/api/job
-
+```
 header :
 Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYzMzQyNjc4MH0.mpZTzxHdeWXz8yEICz5eN83SwGe3xqNCFIt9EvvV6WU
 data : {
@@ -75,24 +78,25 @@ data : {
     "link" : "google.com.vn",
     "description" : "Fresher php developer"
 }
+```
 Result : Json job info
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 api : Update a job - Method PUT
 url : http://localhost:3333/api/job/id
-
+```
 header :
 Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYzMzQyNjc4MH0.mpZTzxHdeWXz8yEICz5eN83SwGe3xqNCFIt9EvvV6WU
-
+```
 Result : Json job info
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 api : Delete a job - Method DELETE
 url : http://localhost:3333/api/job/id
-
+```
 header :
 Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYzMzQyNjc4MH0.mpZTzxHdeWXz8yEICz5eN83SwGe3xqNCFIt9EvvV6WU
-
+```
 Result : Json job info
